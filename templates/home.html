@@ -1,2 +1,39 @@
-<html>
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Flask First</title>
+    <link rel='stylesheet' href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="jumbotron">
+        <h4 align="center">ChatBot</h4>
+
+      </div>
+      <div class="row">
+        <div class="col-sm-8">
+          <h1 style="color:#ccc">No Message yet</h1>
+        </div>
+        <div class="col-sm-4">
+          <form action="" method="POST">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Enter Message Here</label>
+              <input type="text" class="username form-control" id="messageid" placeholder="Hi there">
+            </div>
+            <button type="submit" class="btn btn-success">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+<script src ="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script>
+  var form = $( 'form' ).on( 'submit', function( e ) {
+  e.preventDefault()
+  var user_name = $( 'input.username' ).val()
+
+  console.log( user_name )
+  })
+</script>
+</body>
 </html>

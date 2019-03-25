@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Flask First</title>
+    <link rel='stylesheet' href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  </head>
+  <body>
+    <div class="container">
+      {% block body %}{% endblock %}
+    </div>
+
+    <script src ="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+      var form = $( 'form' ).on( 'submit', function( e ) {
+      e.preventDefault()
+      var user_name = $( 'input.username' ).val()
+
+      console.log( user_name )
+      })
+    </script>
+  </body>
+</html>
