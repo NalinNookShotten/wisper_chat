@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class="container-fluid">
+  <div class="well text-center">
+    <h4>ChatBot</h4>
+
+  </div>
+  <div class="row">
+    <div class="col-sm-8">
+      <h1 style="color:#ccc">No Message yet</h1>
+    </div>
+    <div class="col-sm-4">
+      <form action="" method="post">
+        <div class="form-group">
+          <label for="exampleInputEmail1">Enter Message Here</label>
+          <input type="text" class="form-control" id="messageid" placeholder="Hi there">
+        </div>
+        <button type="submit" class="btn btn-success">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

@@ -2,10 +2,9 @@
 # -*- coding: utf-8 -*-
 import sys
 import re
-#from spellchecker import SpellChecker
+from flask import Flask, render_template
 from autocorrect import spell
 from nltk.corpus import wordnet
-from nltk.corpus import words
 import nltk as nltk
 import random
 import os
@@ -76,20 +75,12 @@ class Wiwa(object):
         If you wish to stop program, type EXIT or QUIT.
         Have fun! """
         print(intro)'''
-        starter = ['Hey,there','Hiya','Hai','Hello,Whats up']
-
         make = input(">>")
-        while make not in ['EXIT', 'QUIT', 'quit', 'exit']:
-
+        while make not in ['EXIT', 'QUIT']:
             choice = self.pick_response(make)
             #print(choice)
             question = self.check_question(make)
-            if make in ['hey','hello','hi']:
-                print(">>",end="")
-                greetings = random.choice(starter)
-                print(greetings)
-                print()
-            elif question:
+            if question:
                 # Maybe use simple script for these too?
                 print(">>",end="")
                 discusanswer = self.get_script_line(self.questionable)
@@ -103,21 +94,21 @@ class Wiwa(object):
                     response = self.get_script_line(self.nounscript)
                     print(">>",end="")
                     if '%' in response:
-                        print(response.replace("%s", choice[1]))
+                        print(response % choice[1])
                     else:
                         print(response)
                 elif choice[0] =='verb':
                     response = self.get_script_line(self.verbscript)
                     print(">>",end="")
                     if '%' in response:
-                        print(response.replace("%s", choice[1]))
+                        print(response % choice[1])
                     else:
                         print(response)
                 elif choice[0] == 'adv':
                     response = self.get_script_line(self.adverbs)
                     print(">>",end="")
                     if '%' in response:
-                        print(response.replace("%s", choice[1]))
+                        print(response % choice[1])
                     else:
                         print(response)
 
@@ -125,24 +116,21 @@ class Wiwa(object):
                     response = self.get_script_line(self.adjectives)
                     print(">>",end="")
                     if '%' in response:
-                        print(response.replace("%s", choice[1]))
+                        print(response % choice[1])
                     else:
                         print(response)
 
                 elif choice[0] == 'err':
                     response = self.get_script_line(self.errorscript)
-                    response = str(response)
                     print(">>",end="")
                     if '%' in response:
-                        print(response.replace("%s", choice[1]))
+                        print(response % choice[1])
                     else:
                         print(response)
-
                 else:
                     print("Wiwa:  ... ... ")
 
             make = input(">>")
-
 
     def get_script_line(self, arg):
         """ Chooses a random script line to give back to user """
@@ -203,7 +191,7 @@ class Wiwa(object):
             Then uses random to choose one to send back to run_wiwa() """
         make = raw_input.lower()
         nouns, verbs, adj, adv, errors = self.make_tag_lists(make)
-        n = len(nouns) #number of words in noun list
+        n = len(nouns)
         v = len(verbs)
         aj = len(adj)
         av = len(adv)
@@ -269,10 +257,7 @@ class Wiwa(object):
     def make_tag_lists(self, arg):
         """ Use nltk to tag words for Wiwa to recycle and or respond too """
         # Now that this is working I'll have to make her an adjective and adverb script!
-        rstr = ""
         errors = self.check_errors(arg)
-        #errors = rstr.join(errors)
-
         tokens = nltk.word_tokenize(arg)
         tags = nltk.pos_tag(tokens)
         clean_tags = self.remove_bad_tags(tags)
@@ -327,7 +312,7 @@ class Wiwa(object):
 
     def enchant_check(self, arg):
         """ using the PyEnchant English dictionary to check validity of a word."""
-        x = arg in words.words()
+        x = spell(arg)
         return x
 
     def check_question(self, arg):
@@ -336,6 +321,7 @@ class Wiwa(object):
             return True
         else:
             return False
+
 
 def create_script_line_order(somescript):
     """ make a list with randomized order of line numbers from script
@@ -367,3 +353,22 @@ def create_script_line_order(somescript):
 
 new_wiwa = Wiwa()
 new_wiwa.run_wiwa()
+
+app = Flask(__name__)
+
+@app.route("/")
+@app.route("/home")
+def home():
+    return render_template('home.html')
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+
+#########  tests #########
+#### check if filePaths are being created properly
+#new_wiwa.test_filePath()
+#### check that all self.attributes are being created successfully
+#new_wiwa.test_variables()
+#### check that responses are being generated from the files:
+#new_wiwa.test_responses()
